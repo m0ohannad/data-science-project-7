@@ -1,0 +1,19 @@
+شرح الأوامر المستخدمة:
+
+في الخطوة الأولى (إيجاد عدد التعليقات الإيجابية) استخدمت الأمر:
+echo "Positive count = $(grep -ic Positive IMDB-Dataset.csv)" > analysis.txt
+وهو يطبع جمة (Positive count =) ثم يضيف إليها عدد التعليقات الإيجابية وذلك بالبحث عن كلمة (Positive) في ملف (IMDB-Dataset.csv) مع عدم مراعاة حالة الأحرف ويضيف الناتج لملف (analysis.txt)
+
+في الخطوة الأولى (إيجاد عدد التعليقات السلبية) استخدمت الأمر:
+echo "Negative count = $(grep -ic Negative IMDB-Dataset.csv)" >> analysis.txt
+نفس طريقة عمل الكود في الخطوة الأولى ولكن بالبحث عن (Negative)
+
+وفي الخطوة الثالثة (إيجاد عدد الكلمات الفريدة في الملف دون اعتبار علامات الترقيم) استخدمت الأمر:
+echo "Total unique words = $(cat IMDB-Dataset.csv | tr -cd '[:alpha:][:space:]' | tr ' [:upper:]' '\n[:lower:]' | awk -i inplace '/\S/' | sort | uniq -u | wc -l)" >> analysis.txt
+وهو أولاً يقرأ ملف (IMDB-Dataset.csv) ثم يحذف كل شي غير الحروف والمسافات ثم تحويل الحروف الكبيرة لصغيرة مع استبدال المسافات بسطور جديدة ثم حذف السطور المتكررة في حالة كان هناك مسافات متكررة ثم ترتيبها من أجل استخراج كل كلمة فريدة في سطر وثم عد عدد السطور واضافة الناتج لملف analysis.txt
+
+
+فيكون ناتج الأوامر السابقة ملف باسم (analysis.txt) يحتوي على التالي:
+Positive count = 25677
+Negative count = 25365
+Total unique words = 102226
